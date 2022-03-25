@@ -42,17 +42,19 @@ def construct_matrices(n_list,fixed_nodes,free_nodes,force_densities):
     Df = np.matmul(np.matmul(np.transpose(C),Q),Cf)
 
 
-    print('Cf = {} \n \n C = {} \n \n D = {} \n \n Df = {}'.format(Cf,C,D,Df))
+    # print('Cf = {} \n \n C = {} \n \n D = {} \n \n Df = {}'.format(Cf,C,D,Df))
     return D, Df, bars
 
+def construct_matrices_bars():
+
+    return
 
 def solve_and_plot(D,Df,free_nodes,fixed_nodes,p,coords,bars,name):
     coords[free_nodes,2] = list(np.matmul(np.linalg.inv(D),p[free_nodes,2]-np.matmul(Df,coords[fixed_nodes,2])))
-    coords[free_nodes,1] = list(np.matmul(np.linalg.inv(D),p[free_nodes,1]-np.matmul(Df,coords[fixed_nodes,1])))
-    coords[free_nodes,0] = list(np.matmul(np.linalg.inv(D),p[free_nodes,0]-np.matmul(Df,coords[fixed_nodes,0])))
-    print(coords)
+    # coords[free_nodes,1] = list(np.matmul(np.linalg.inv(D),p[free_nodes,1]-np.matmul(Df,coords[fixed_nodes,1])))
+    # coords[free_nodes,0] = list(np.matmul(np.linalg.inv(D),p[free_nodes,0]-np.matmul(Df,coords[fixed_nodes,0])))
 
-    plot(coords,bars,name)
+    return coords
 
 def plot(coords,bars,name):
 
