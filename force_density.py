@@ -48,31 +48,35 @@ def construct_matrices(n_list,fixed_nodes,free_nodes,force_densities):
 
 def solve_and_plot(D,Df,free_nodes,fixed_nodes,p,coords,bars,name):
     coords[free_nodes,2] = list(np.matmul(np.linalg.inv(D),p[free_nodes,2]-np.matmul(Df,coords[fixed_nodes,2])))
-    # coords[free_nodes,1] = list(np.matmul(np.linalg.inv(D),p[free_nodes,1]-np.matmul(Df,coords[fixed_nodes,1])))
-    # coords[free_nodes,0] = list(np.matmul(np.linalg.inv(D),p[free_nodes,0]-np.matmul(Df,coords[fixed_nodes,0])))
+    coords[free_nodes,1] = list(np.matmul(np.linalg.inv(D),p[free_nodes,1]-np.matmul(Df,coords[fixed_nodes,1])))
+    coords[free_nodes,0] = list(np.matmul(np.linalg.inv(D),p[free_nodes,0]-np.matmul(Df,coords[fixed_nodes,0])))
 
     return coords
 
-def plot(coords,bars,name):
+def plot(coords,bars,name,title):
 
     for bar in bars:
         plt.plot(coords[bar,0],coords[bar,2])
+    plt.axis('equal')
     plt.savefig('{}_xz'.format(name))
     plt.close()
 
     for bar in bars:
         plt.plot(coords[bar,0],coords[bar,1])
+    plt.axis('equal')
     plt.savefig('{}_xy'.format(name))
     plt.close()
 
     for bar in bars:
         plt.plot(coords[bar,1],coords[bar,2])
+    plt.axis('equal')
     plt.savefig('{}_yz'.format(name))
     plt.close()
 
     ax = plt.axes(projection='3d')
     for bar in bars:
         ax.plot3D(coords[bar,0],coords[bar,1],coords[bar,2])
+    plt.title(title)
     plt.show()
     plt.savefig('{}_3D'.format(name))
     plt.close()
@@ -118,3 +122,14 @@ def enforce_planarity(coord1,coord2,coord3,coord4):
     z4 = A*coord4[0] + B*coord4[1] + C
 
     return z4
+
+def get_forces(coords,bars,force_densities):
+    bars_forces = []
+    for i,bar in enumerate(bars):
+        coord1 = coords[bar[0]]
+        coord2 = coords[bar[1]]
+        length = np.linalg.norm(coord1-coord2)
+        force = force_densities[i]*length
+        bars_forces.append([bar,force])
+    
+    return bars_forces
