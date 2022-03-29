@@ -112,20 +112,19 @@ p[groups[7],2] = -1/2
 p[groups[2],2] = -3         # This is to model the weight of a lighting rig attached to nodes in group 1.
 
 # plot(coords,get_bars(n_list),'complete_des')
-
 for i in range(1):
 
     # Define the horizontal compression forces in each arch.
     # A value of 1 is the force equal to the gravity 
     # load applied to nodes in the central cross.
-    Fo = 5
-    Fi = 5
+    Fo = 2
+    Fi = 2
 
     # Define the force in the outer bars between nodes in groups 7. 
     # Force is factor 1 times force in central arch plus factor 2 
     # times force in outer arch.
-    factor1 = 2.5
-    factor2 = 1
+    factor1 = 4.0
+    factor2 = 0
 
     # Define the force densities as a function of the horizontal forces in the arches, 
     # dependent upon the distribution of the horizontal forces between bars 7,7 and 6,7.
@@ -162,7 +161,8 @@ for i in range(1):
     D,Df,bars = construct_matrices(n_list,fixed_nodes,free_nodes,force_densities)
     new_coords = solve_and_plot(D,Df,free_nodes,fixed_nodes,p,coords,bars,'bigger_des2')
     print('Max height of the structure = {}'.format(np.round(4*np.max(new_coords[:,2])),3))
+    print(new_coords[:,2])
     print(get_forces(new_coords,bars,force_densities))
-    plot(new_coords,bars,'complete_des','Equilibrium shape for the structure \n'
+    plot(new_coords,bars,'fuck_about','Equilibrium shape for the structure \n'
             'with arch forces of Fo = {} and Fi = {} \n and factor 1 = {}, factor 2 = {}'.format(Fo,Fi,factor1,factor2))
 
